@@ -1,0 +1,364 @@
+<?php
+
+// Изучение разницы echo, print_r и var_dump
+
+echo '<h1>Сравнительная таблица <code>echo</code> <code>print_r</code> <code>var_dump</code></h1>';
+echo '<style>
+    // td { border: 1px solid black} 
+    // code {background: dimgray; padding: 4px 6px; border-radius: 4px; color: goldenrod}
+    code {background: #000a; padding: 4px 6px; border-radius: 4px; color: yellow}
+    table { border-collapse: collapse; }
+    td, th { border:1px solid #444; padding:4px 8px; vertical-align: top; }
+    pre { margin:0; }
+</style>';
+
+$values = ['', 0, null, '0', [], true, false, 1, '1', -1, '-1'];
+$funcs = [
+    'echo'      => function ($v) { echo $v; },
+    'print_r'   => function ($v) { print_r($v); },
+    'var_dump'  => function ($v) { var_dump($v); },
+];
+ 
+echo '<table>';
+
+echo '<tr><th>Функция</th>';
+foreach ($values as $v) {
+    echo '<th><code>' . var_export($v, true) . '</code></th>';
+}
+echo '</tr>';
+
+foreach ($funcs as $func) {
+    echo '<tr>';
+    echo '<th><code>' . array_search($func, $funcs) . '</code></th>';
+    foreach ($values as $value) {
+        echo '<td>';
+        $out = $func($value);
+        echo $out ?: '';
+        echo '</td>';
+    }
+    echo '</tr>';
+}
+echo '</table> <hr>';
+
+echo '<h2>Выводы:</h2>';
+echo '<ul>
+    <li><code>echo</code> - самая простая функция для вывода строк. Не может выводить массивы</li>
+    <li><code>print_r</code> - удобна для вывода массивов в читаемом формате. Не показывает типы данных</li>
+    <li><code>var_dump</code> - самая информативная функция, показывающая типы и значения всех переменных, включая массивы</li>
+</ul>';
+
+// Работа с условиями
+
+echo '<h1>Условия в PHP</h1>';
+echo '<h2>Цикл <code>while</code> выводит все нечётные числа от 0 до 90:</h2>';
+
+echo '<p>';
+$i=1;
+while ($i<90){
+    echo " " . $i;
+    $i+=2;
+}
+echo '</p>';
+
+echo '<hr>';
+
+echo '<h2>Цикл <code>for</code> выводит все нечётные числа от 0 до 90:</h2>';
+
+echo '<p>';
+for ($i=1; $i<90; $i+=2){
+    echo " " . $i;
+}
+echo '</p> <hr>';
+
+// Реализовать сортировку. Используйте любой известный вам алгоритм вручную. Используйте встроенные функции PHP.
+
+echo '<h2>Сортировка массива</h2>';
+
+$arrayToSort = [5, 3, 8, 1, 2, 7];
+echo '<p>Исходный массив: <code>' . implode(', ', $arrayToSort) . '</code></p>';
+
+// Сортировка пузырьком
+$n = count($arrayToSort);
+for ($i = 0; $i < $n - 1; $i++) {
+    for ($j = 0; $j < $n - $i - 1; $j++)
+    {
+        if ($arrayToSort[$j] > $arrayToSort[$j + 1])
+        {
+            $temp = $arrayToSort[$j];
+            $arrayToSort[$j] = $arrayToSort[$j + 1];
+            $arrayToSort[$j + 1] = $temp;
+        }
+    }
+}
+
+echo '<p>Отсортированный массив методом пузырька: <code>' . implode(', ', $arrayToSort) . '</code></p>';
+
+$arrayToSort = [5, 3, 8, 1, 2, 7];
+sort($arrayToSort);
+echo '<p>Отсортированный массив с помощью встроенной функции <code>sort()</code>: <code>' . implode(', ', $arrayToSort) . '</code></p>';
+
+echo '<hr>';
+
+// •	Создать второй вектор.
+// •	Заполнить его с помощью array_fill.
+// •	Выполнить слияние двух массивов
+
+echo '<h2>Создать второй вектор, заполнить его с помощью array_fill и выполнить слияние двух массивов</h2>';
+
+$secondArray = array_fill(0, 6, 10);
+echo '<p>Второй массив, заполненный с помощью <code>array_fill</code>: <code>' . implode(', ', $secondArray) . '</code></p>';
+$mergedArray = array_merge($arrayToSort, $secondArray);
+echo '<p>Слияние двух массивов с помощью <code>array_merge</code>: <code>' . implode(', ', $mergedArray) . '</code></p>';
+
+echo '<hr>';
+
+// •	Создать ассоциативный массив, содержащий названия фильмов и их жанры., организованных по жанрам. пусть это будет ассоциированный массив, в котором имена полей будут жанрами ("мелодрама", "боевик", "детектив" и пр.), а элементами – названия фильмов.
+echo '<h2>Ассоциативный массив с названиями фильмов и их жанрами</h2>';
+$movies = [
+    "мелодрама" => ["Любовь на Сейшелах", "Семья мечты", "Друзья или больше?"],
+    "боевик" => ["Пиф-паф", "Пушки ковбоев", "День расплаты"],
+    "детектив" => ["Кто съел чебурек", "Как получить 100 баллов за курс PHP", "Шерлок Холмс и тайна кода"],
+    "комедия" => ["Смех до слёз", "Хиханьки да хахаьки", "Шутки в сторону"],
+    "мультфильм" => ["Тачки", "Тачки 2", "Тачки 3", "Садовые тачки"]
+];
+echo '<p>Ассоциативный массив с фильмами и жанрами:</p>';
+foreach ($movies as $genre => $filmList) {
+    echo "<p><strong>$genre:</strong> <code>" . implode(', ', $filmList) . "</code></p>";
+}
+echo '<hr>';
+
+// •	Проверить существование элемента с заданным ключом.
+echo '<h2>Проверить существование элемента с заданным ключом.</h2>';
+$keyToCheck_1 = "боевик";
+$keyToCheck_2 = "фантастика";
+
+echo array_key_exists($keyToCheck_1, $movies) 
+    ? "<p>Ключ <code>$keyToCheck_1</code> существует в массиве</p>"
+    : "<p>Ключ <code>$keyToCheck_1</code> не существует в массиве</p>";
+
+echo array_key_exists($keyToCheck_2, $movies) 
+    ? "<p>Ключ <code>$keyToCheck_2</code> существует в массиве</p>"
+    : "<p>Ключ <code>$keyToCheck_2</code> не существует в массиве</p>";
+
+echo '<hr>';
+
+// •	Найти ключ массива по заданному значению.
+echo '<h2>Найти ключ массива по заданному значению.</h2>';
+$movieToFind_1 = "Тачки";
+
+foreach ($movies as $genre => $filmList) {
+    if (in_array($movieToFind_1, $filmList)) {
+        echo "<p>Фильм <code>$movieToFind_1</code> находится в жанре <code>$genre</code></p>";
+        break;
+    }
+}
+
+// или проще через array_search
+
+$movieToFind_2 = "Как получить 100 баллов за курс PHP";
+foreach ($movies as $genre => $filmList) {
+    $key = array_search($movieToFind_2, $filmList);
+    if ($key !== false) {
+        echo "<p>Фильм <code>$movieToFind_2</code> находится в жанре <code>$genre</code></p>";
+        break;
+    }
+}
+
+echo '<hr>';
+
+// •	Попробуйте передать несуществующее значение. Объясните результат.
+echo '<h2>Попробуйте передать несуществующее значение. Объясните результат.</h2>';
+$movieToFind_3 = "Неизвестный фильм";
+
+echo '<p>Результат поиска <code>' . $movieToFind_3 . '</code> в жанре <code>комедия</code>: '
+    . var_dump(array_search($movieToFind_3, $movies['комедия'])) . '</p><br>';
+echo '<p>Результат <code>false</code> означает, что значение не найдено в массиве</p><hr>';
+
+// •	Произвести фильтрацию массива по произвольному признаку.
+echo '<h2>Произвести фильтрацию массива по произвольному признаку.</h2>';
+$filteredMovies = array_filter($movies, function($filmList) {
+    return count($filmList) > 3;
+});
+echo '<p>Жанры с более чем 3 фильмами:</p>';
+foreach ($filteredMovies as $genre => $filmList) {
+    echo "<p><strong>$genre:</strong> <code>" . implode(', ', $filmList) . "</code></p>";
+}
+echo '<hr>';
+
+// •	Выполнить array_flip – объяснить результат.
+echo '<h2>Выполнить <code>array_flip</code> – объяснить результат.</h2>';
+$arrayToFlip = [
+    "a" => 1,
+    "b" => 2,
+    "c" => 3
+];
+echo '<p>Исходный массив:</p>';
+print_r($arrayToFlip);
+$flippedMovies = array_flip($arrayToFlip);
+echo '<p>Результат <code>array_flip</code>:</p>';
+print_r($flippedMovies);
+echo '<p>Объяснение: <code>array_flip</code> меняет местами ключи и значения массива</p><hr>';
+
+// •	Создать массив, наполнить его случайными значениями, найти максимальное и минимальное значение и поменять их местами.
+echo '<h2>Создать массив, наполнить его случайными значениями, найти максимальное и минимальное значение и поменять их местами.</h2>';
+$randomArray = [];
+for ($i = 0; $i < 10; $i++) {
+    $randomArray[] = rand(1, 100);
+}
+
+echo '<p>Исходный массив: <code>' . implode(', ', $randomArray) . '</code></p>';
+$maxKey = array_search(max($randomArray), $randomArray);
+$minKey = array_search(min($randomArray), $randomArray);
+$temp = $randomArray[$maxKey];
+$randomArray[$maxKey] = $randomArray[$minKey];
+$randomArray[$minKey] = $temp;
+echo '<p>Массив после замены максимального и минимального значений: <code>' . implode(', ', $randomArray) . '</code></p>';
+echo '<hr>';
+
+
+// Работа с функциями
+echo '<h1>Работа с функциями</h1>';
+
+// Реализуйте функцию, которая принимает в себя массив и осуществляет в нём поиск по определенному условию. Например, нечетные элементы, кратные 3.
+// Создайте несколько массивов и «скормите» их вашей функции. Продемонстрируйте результат.
+echo '<h2>Функция для поиска нечетных элементов, кратных 3</h2>';
+
+function findOddMultiplesOfThree($array) {
+    return array_filter($array, function($value) {
+        return $value % 2 !== 0 && $value % 3 === 0;
+    });
+}
+
+$testArray1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+$testArray2 = [10, 15, 20, 25, 30, 33, 36, 39, 42, 45];
+$testArray3 = [2, 4, 6, 8, 10, 12, 14, 16];
+
+foreach ([$testArray1, $testArray2, $testArray3] as $index => $array) {
+    $result = findOddMultiplesOfThree($array);
+    echo '<p>Результат для массива ' . ($index + 1) . ': <code>' . implode(', ', $result) . '</code></p>';
+}
+echo '<hr>';
+
+// Работа со строками
+echo '<h1>Работа со строками</h1>';
+// •	Создать строковую переменную, которая содержит адрес электронной почты.
+$email1 = "example@gmail.com";
+$email2 = "example_at_gmail.ru";
+
+echo '<p> Еmail 1: ' . $email1 . '</p>';
+echo '<p> Еmail 2: ' . $email2 . '</p>';
+
+// •	Проверить, содержит ли адрес электронной почты символ @, и выведите предупреждающее сообщение, если такого символа нет.
+echo '<h2>Проверить, содержит ли адрес электронной почты символ @, и выведите предупреждающее сообщение, если такого символа нет.</h2>';
+function validateEmail($email) {
+    if (strpos($email, '@') === false) {
+        echo '<p style="color:red;">Предупреждение: Адрес электронной почты \'' . $email . '\' не содержит символ \'@\'</p>';
+    } else {
+        echo '<p style="color:green;">Адрес электронной почты \'' . $email . '\' корректен.</p>';
+    }
+}
+validateEmail($email1);
+validateEmail($email2);
+echo '<hr>';
+
+// •	Получить домен почты, например, ‘gmail.com’. Используйте несколько подходов.
+echo '<h2>•	Получить домен почты, например, ‘gmail.com’. Используйте несколько подходов.</h2>';
+function getEmailDomain($email) {
+    // explode
+    $parts = explode('@', $email);
+    $domain1 = isset($parts[1]) ? $parts[1] : 'Нет домена';
+
+    // substr и strrpos
+    $atPos = strrpos($email, '@');
+    $domain2 = $atPos !== false ? substr($email, $atPos + 1) : 'Нет домена';
+
+    // с filter_var
+    $domain3 = filter_var($email, FILTER_VALIDATE_EMAIL) ? substr(strrchr($email, '@'), 1) : 'Нет домена';
+
+    echo '<p>Домен (explode): <code>' . $domain1 . '</code></p>';
+    echo '<p>Домен (substr/strrpos): <code>' . $domain2 . '</code></p>';
+    echo '<p>Домен (filter_var): <code>' . $domain3 . '</code></p>';
+}
+getEmailDomain($email1);
+getEmailDomain($email2);
+echo '<hr>';
+
+// •	Создать массив строк. Преобразовать его в строку, «склеив» его элементы через символ запятой. Используйте различные циклы и встроенные функции php. Минимум 2 способа. Объясните предпочтительный под данную задачу.
+echo '<h2>•	Создать массив строк. Преобразовать его в строку, «склеив» его элементы через символ запятой. Используйте различные циклы и встроенные функции php. Минимум 2 способа. Объясните предпочтительный под данную задачу.</h2>';
+
+$arrayOfStrings = ["яблоко", "банан", "вишня", "груша", "апельсин"];
+// Способ 1: Использование implode
+$joinedString1 = implode(', ', $arrayOfStrings);
+echo '<p>Результат с помощью <code>implode</code>: <code>' . $joinedString1 . '</code></p>';
+// Способ 2: Использование цикла foreach
+$joinedString2 = '';
+foreach ($arrayOfStrings as $index => $value) {
+    $joinedString2 .= $value;
+    if ($index < count($arrayOfStrings) - 1) {
+        $joinedString2 .= ', ';
+    }
+}
+echo '<p>Результат с помощью цикла <code>foreach</code>: <code>' . $joinedString2 . '</code></p>';
+// Cпособ 3: Использование join, IDE пишет, что это alias implode
+echo '<p>Результат с помощью <code>join</code> (alias implode): <code>' . join(', ', $arrayOfStrings) . '</code></p>';
+// Способ 4: array_reduce
+$joinedString3 = array_reduce($arrayOfStrings, function($carry, $item) {
+    return $carry === '' ? $item : $carry . ', ' . $item;
+}, '');
+echo '<p>Результат с помощью <code>array_reduce</code>: <code>' . $joinedString3 . '</code></p>';
+// Способ 5: Использование array_map и join через анонимную функцию
+$joinedString4 = array_map(function($v) { return $v; }, $arrayOfStrings);
+echo '<p>Результат с помощью <code>array_map + implode</code>: <code>' . implode(', ', $joinedString4) . '</code></p>';
+echo '<p>Предпочтительный способ – использование <code>implode</code>, так как он более краткий, читаемый и эффективный. Как join в Python, хотя другие способы тоже красивы</p>';
+echo '<hr>';
+
+// •	Создать массив, состоящий из целочисленных и вещественных значений. Считать этот массив в цикле, преобразовывая все элементы в вещественные значения с точностью в два знака после запятой.
+echo '<h2>Создать массив, состоящий из целочисленных и вещественных значений. Считать этот массив в цикле, преобразовывая все элементы в вещественные значения с точностью в два знака после запятой.</h2>';
+$intFloatArray = [1, 2.3456, 3, 4.789, 5, 6.1, 7.9999];
+$formattedArray = [];
+foreach ($intFloatArray as $value) {
+    $formattedArray[] = number_format((float)$value, 2, '.', '');
+}
+echo '<p>Исходный массив: <code>' . implode(', ', $intFloatArray) . '</code></p>';
+echo '<p>Преобразованный массив с точностью до двух знаков после запятой: <code>' . implode(', ', $formattedArray) . '</code></p>';
+
+// Работа с файлами
+echo '<h1>Работа с файлами</h1>';
+// Создайте массив строк. 
+// Заполните его случайными данными.
+// Запишите эти данные в файл ‘myFile.txt’ и сохраните его.
+// Реализуйте чтение файла ‘myFile.txt’ и выводит содержимое на экран, сохраняя переносы строк.
+echo '<h2>Создайте массив строк. Заполните его случайными данными. Запишите эти данные в файл ‘myFile.txt’ и сохраните его. Реализуйте чтение файла ‘myFile.txt’ и выводит содержимое на экран, сохраняя переносы строк.</h2>';
+
+$myFileArray = ["Первая строка", "Вторая строка", "Третья строка", "Четвертая строка"];
+file_put_contents('myFile.txt', implode("\n", $myFileArray));
+echo '<p>Содержимое файла myFile.txt:</p>';
+echo '<pre>' . file_get_contents('myFile.txt') . '</pre>';
+echo '<hr>';
+
+// Задача 
+echo '<h1>Задача</h1>';
+// Что-то поинтереснее.
+// Реализуйте решение задачи.
+// Входные данные необходимо читать из файла input.txt а писать в output.txt
+
+$fileInputs = file_get_contents('input.txt');
+
+echo '<h2> Содержимое файла input.txt:</h2>';
+echo '<pre>' . $fileInputs . '</pre>';
+
+// 1 строка число различных чисел N и количество запросов Q
+// вывести в процентах сколько раз встречается каждое число в массиве
+$lines = explode("\n", trim($fileInputs));
+list($N, $Q) = explode(' ', array_shift($lines));
+$N = (int)$N;
+$Q = (int)$Q;
+$results = [];
+for ($i = 1; $i <= $N; $i++) {
+    echo '<p>Число ' . $i . ' встречается в массиве ' . substr_count(implode("", $lines), (string)$i) . ' раз(а)</p>';
+    $results[$i] = number_format(substr_count(implode("", $lines), (string)$i) / $Q * 100, 2, '.','') . '%';
+}
+
+file_put_contents('output.txt', implode("\n", $results));
+echo '<h2> Содержимое файла output.txt:</h2>';
+echo '<pre>' . file_get_contents('output.txt') . '</pre>';
