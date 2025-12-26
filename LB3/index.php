@@ -3,68 +3,68 @@ require 'vendor/autoload.php';
 
 use App\MagicClass;
 
-// echo "=== Демонстрация магических методов PHP ===\n\n";
+echo "=== Демонстрация магических методов PHP ===\n\n";
 
-// // 1. создание объекта, вызовет __construct
-// echo "1. __construct:\n";
-// $obj = new MagicClass();
-// echo "   Объект создан\n\n";
+// 1. создание объекта, вызовет __construct
+echo "1. __construct:\n";
+$obj = new MagicClass();
+echo "   Объект создан\n\n";
 
-// // 2. установление и получение свойств, вызовет __set и __get соответственно
-// echo "2. __set и __get:\n";
-// $obj->dynamicProperty = 'test value'; // вызовет __set
-// echo "   Значение: " . $obj->dynamicProperty . "\n\n"; // вызовет __get
+// 2. установление и получение свойств, вызовет __set и __get соответственно
+echo "2. __set и __get:\n";
+$obj->dynamicProperty = 'test value'; // вызовет __set
+echo "   Значение: " . $obj->dynamicProperty . "\n\n"; // вызовет __get
 
-// // 3. использование isset() и unset() на недоступном свойстве, вызовет __isset и __unset соответственно
-// echo "3. __isset и __unset:\n";
-// echo "   isset(dynamicProperty): " . (isset($obj->dynamicProperty) ? 'true' : 'false') . "\n";
-// unset($obj->dynamicProperty);
-// echo "   После unset isset(dynamicProperty): " . (isset($obj->dynamicProperty) ? 'true' : 'false') . "\n\n";
+// 3. использование isset() и unset() на недоступном свойстве, вызовет __isset и __unset соответственно
+echo "3. __isset и __unset:\n";
+echo "   isset(dynamicProperty): " . (isset($obj->dynamicProperty) ? 'true' : 'false') . "\n";
+unset($obj->dynamicProperty);
+echo "   После unset isset(dynamicProperty): " . (isset($obj->dynamicProperty) ? 'true' : 'false') . "\n\n";
 
-// // 4. вызов несуществующего метода вызовет __call
-// echo "4. __call:\n";
-// $result = $obj->undefinedMethod('param1', 'param2');
-// echo "   Результат: $result\n\n";
+// 4. вызов несуществующего метода вызовет __call
+echo "4. __call:\n";
+$result = $obj->undefinedMethod('param1', 'param2');
+echo "   Результат: $result\n\n";
 
-// // 5. вызов несуществующего статического метода вызовет __callStatic
-// echo "5. __callStatic:\n";
-// $result = MagicClass::undefinedStaticMethod();
-// echo "   Результат: $result\n\n";
+// 5. вызов несуществующего статического метода вызовет __callStatic
+echo "5. __callStatic:\n";
+$result = MagicClass::undefinedStaticMethod();
+echo "   Результат: $result\n\n";
 
-// // 6. Преобразование объекта в строку, __toString
-// echo "6. __toString:\n";
-// echo "   " . $obj . "\n\n";
+// 6. Преобразование объекта в строку, __toString
+echo "6. __toString:\n";
+echo "   " . $obj . "\n\n";
 
-// // 7. вызов объекта как функции, __invoke
-// echo "7. __invoke:\n";
-// $result = $obj('параметр');
-// echo "   Результат: $result\n\n";
+// 7. вызов объекта как функции, __invoke
+echo "7. __invoke:\n";
+$result = $obj('параметр');
+echo "   Результат: $result\n\n";
 
-// // 8. __sleep и __wakeup (сериализация)
-// echo "8. Сериализация (__sleep, __wakeup):\n";
-// $serialized = serialize($obj);
-// echo "   Объект сериализован\n";
-// $unserialized = unserialize($serialized);
-// echo "   Объект десериализован\n\n";
+// 8. __sleep и __wakeup (сериализация)
+echo "8. Сериализация (__sleep, __wakeup):\n";
+$serialized = serialize($obj);
+echo "   Объект сериализован\n";
+$unserialized = unserialize($serialized);
+echo "   Объект десериализован\n\n";
 
-// // 9. Клонирование объекта, __clone
-// echo "9. __clone:\n";
-// $clone = clone $obj;
-// echo "   Объект склонирован\n\n";
+// 9. Клонирование объекта, __clone
+echo "9. __clone:\n";
+$clone = clone $obj;
+echo "   Объект склонирован\n\n";
 
-// // 10. вывод через var_dump -> __debugInfo
-// echo "10. __debugInfo:\n";
-// var_dump($obj);
-// echo "\n";
+// 10. вывод через var_dump -> __debugInfo
+echo "10. __debugInfo:\n";
+var_dump($obj);
+echo "\n";
 
-// // 11. var_export -> __set_state
-// echo "11. __set_state:\n";
-// $exported = var_export($obj, true);
-// echo "   Объект экспортирован\n";
-// eval('\$newObj = ' . $exported . ';');
+// 11. var_export -> __set_state
+echo "11. __set_state:\n";
+$exported = var_export($obj, true);
+echo "   Объект экспортирован\n";
+eval('\$newObj = ' . $exported . ';');
 
-// // 12. __destruct будет вызван завершении скрипта
-// echo "\nСкрипт завершается, сейчас вызовется __destruct...\n";
+// 12. __destruct будет вызван завершении скрипта
+echo "\nСкрипт завершается, сейчас вызовется __destruct...\n";
 
 // ====== ====== ======
 
