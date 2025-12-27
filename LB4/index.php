@@ -1,0 +1,3 @@
+<?php
+
+require('fullcontent.php');
