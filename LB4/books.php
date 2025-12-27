@@ -1,3 +1,7 @@
+<?php
+require_once 'db/queries.php';
+$books = getBooks($link);
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -37,46 +41,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="book-id">1</td>
-                    <td class="book-mame">Как управлять вселенной, не привлекая внимания санитаров</td>
-                    <td class="book-year">2017</td>
-                    <td class="book-taken taken">Взята</td>
-                    <td class="book-who-taked">Паук</td>
-                    <td class="book-when-taked">7.1.2024</td>
-                </tr>
-                <tr>
-                    <td class="book-id">2</td>
-                    <td class="book-mame">Преступление и наказание</td>
-                    <td class="book-year">1866</td>
-                    <td class="book-taken">Свободна</td>
-                    <td class="book-who-taked">—</td>
-                    <td class="book-when-taked">—</td>
-                </tr>
-                <tr>
-                    <td class="book-id">3</td>
-                    <td class="book-mame">Как ни чего не понять и не подать виду</td>
-                    <td class="book-year">1999</td>
-                    <td class="book-taken taken">Взята</td>
-                    <td class="book-who-taked">Иванов</td>
-                    <td class="book-when-taked">01.02.2024</td>
-                </tr>
-                <tr>
-                    <td class="book-id">4</td>
-                    <td class="book-mame">Проблема сброса античных статуй из космоса</td>
-                    <td class="book-year">2009</td>
-                    <td class="book-taken taken">Взята</td>
-                    <td class="book-who-taked">Стетхем</td>
-                    <td class="book-when-taked">22.02.2024</td>
-                </tr>
-                <tr>
-                    <td class="book-id">5</td>
-                    <td class="book-mame">1984</td>
-                    <td class="book-year">1949</td>
-                    <td class="book-taken">Свободна</td>
-                    <td class="book-who-taked">—</td>
-                    <td class="book-when-taked">—</td>
-                </tr>
+                <?php foreach ($books as $book): ?>
+                    <tr>
+                        <td class="book-id"><?= $book['id'] ?></td>
+                        <td class="book-mame"><?= htmlspecialchars($book['name']) ?></td>
+                        <td class="book-year"><?= $book['pub_year'] ?></td>
+                        <td class="book-taken"><?= $book['taken_at'] ? 'Взята' : 'Свободна' ?></td>
+                        <td class="book-who-taked">
+                            <?= $book['taken_at']
+                                ? htmlspecialchars($book['reader_last_name'] . ' ' . $book['reader_first_name'])
+                                : '—'
+                            ?>
+                        </td>
+                        <td class="book-when-taked"><?= $book['taken_at'] ?? '—' ?></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>

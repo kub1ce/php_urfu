@@ -1,3 +1,7 @@
+<?php
+require_once 'db/queries.php';
+$readers = getReaders($link);
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -35,31 +39,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Иванов</td>
-                    <td>Иван</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Апостол</td>
-                    <td>Пётр</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Джейсон</td>
-                    <td>Стетхем</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Человек</td>
-                    <td>Паук</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Тимофей</td>
-                    <td>Радя</td>
-                </tr>
+                <?php foreach ($readers as $reader): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($reader['id']) ?></td>
+                        <td><?= htmlspecialchars($reader['first_name']) ?></td>
+                        <td><?= htmlspecialchars($reader['last_name']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>

@@ -100,17 +100,64 @@ body {
 }
 
 .table-block {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 40px;
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 18px;
     width: 100%;
-    max-width: 1000px;
-    backdrop-filter: blur(10px);
+    max-width: 1100px;
+
+    max-height: 420px;
+    overflow-y: auto;
+
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    transition: transform 0.3s ease;
+}
+
+.table-block:hover {
+    transform: translateY(-2px);
 }
 
 .table-block h1 {
     margin-bottom: 20px;
     text-align: center;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+}
+
+
+.table-block::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-block::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.table-block::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        #9f7aea,
+        #764ba2
+    );
+    border-radius: 40px;
+}
+
+.table-block::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        #b794f4,
+        #6b46c1
+    );
+}
+
+.table-block {
+    scrollbar-width: thin;
+    scrollbar-color: #9f7aea rgba(255, 255, 255, 0.15);
 }
 
 table {
@@ -130,6 +177,12 @@ th, td {
 th {
     background: #764ba2;
     color: #fff;
+}
+
+thead th {
+    position: sticky;
+    top: -32px;
+    z-index: 2;
 }
 
 tr {
@@ -152,4 +205,3 @@ tr:hover {
     padding: 20px;
     font-size: 14px;
 }
-
