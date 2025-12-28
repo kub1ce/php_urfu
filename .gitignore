@@ -1,3 +1,5 @@
 .vscode/
 *.docx
 *.tmp
+*.env
+test.md
