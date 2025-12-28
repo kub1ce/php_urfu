@@ -1,3 +1,2 @@
 <?php
-
-require('fullcontent.php');
+require 'fullcontent.php';

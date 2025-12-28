@@ -18,37 +18,48 @@ function getBooks(PDO $link): array
 {
     $stmt = $link->prepare("
         SELECT
-            b.id,
+            b.id AS book_id,
             b.name,
             b.pub_year,
-            r.last_name AS reader_last_name,
-            r.first_name AS reader_first_name,
-            lt.taken_at
-        FROM books b
-        LEFT JOIN log_taking lt 
-            ON lt.book_id = b.id
-           AND lt.returned_at IS NULL
-        LEFT JOIN readers r 
-            ON r.id = lt.reader_id
-        ORDER BY b.id
+
+            r.first_name,
+            r.last_name,
+
+            lt.taken_at,
+            lt.returned_at
+
+        FROM log_taking lt
+        JOIN books b ON b.id = lt.book_id
+        JOIN readers r ON r.id = lt.reader_id
+
+        ORDER BY lt.taken_at DESC
     ");
+
     $stmt->execute();
-    return $stmt->fetchAll();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// book recieve
-function getReturnedBooks(PDO $link): array
-{
+// taken books
+function getTakenBooks(PDO $link): array
+{    
     $stmt = $link->prepare("
         SELECT
-            lt.returned_at,
-            r.last_name || ' ' || r.first_name AS reader,
-            b.name AS book_name
+            b.id AS book_id,
+            b.name,
+            b.pub_year,
+
+            r.first_name,
+            r.last_name,
+
+            lt.taken_at,
+            lt.returned_at
+
         FROM log_taking lt
-        JOIN readers r ON r.id = lt.reader_id
         JOIN books b ON b.id = lt.book_id
-        WHERE lt.returned_at IS NOT NULL
-        ORDER BY lt.returned_at
+        AND lt.returned_at IS NULL
+        JOIN readers r ON r.id = lt.reader_id
+
+        ORDER BY lt.taken_at DESC
     ");
     $stmt->execute();
     return $stmt->fetchAll();
